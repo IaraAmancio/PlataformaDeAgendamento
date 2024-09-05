@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento</title>
+    <link rel="stylesheet" href="/style/formulario.css">
+   
+</head>
+
+<body>
+
+    <div class="container">
+        <h3>Agendamento</h3>
+        <form>
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" />
+            </div>
+            <div>
+                <label for="cpf">CPF:</label>
+                <input type="text" name="cpf" >
+            </div>
+            <div>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" />
+            </div>
+            <div>
+                <label for="qtdPessoas">Quantidade de pessoas:</label>
+                <input type="number" id="qtdPessoas" />
+            </div>
+            <div>
+                <label for="dataReserva">Data da reserva:</label>
+                <input type="date" id="dataReserva" name="reserva">            </div>
+            <div class="setores">
+                <label for="setores">Setores:</label> <br>
+                <label for="setorA">Setor A</label>
+                <input type="radio" class="radio" id="setorA" name="setor" value="setorA">
+                <label for="setorB">Setor B</label><br>
+                <input type="radio" class="radio" id="setorB" name="setor" value="setorB">
+                <label for="setorC">Setor C</label>
+                <input type="radio" class="radio" id="setorC" name="setor" value="setorC">
+                </div>
+            <div class="button">
+                <button type="submit">Enviar sua mensagem</button>
+            </div>
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>
