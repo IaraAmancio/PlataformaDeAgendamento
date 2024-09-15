@@ -1,13 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Página inicial</title>
+    <link rel="stylesheet" href="/style/paginaInicial.css">
+
+
 </head>
+
 <body>
-    <h1>Página inicial (TESTE)</h1>
-    <a href="./formulario">Formulário</a>
-    <a href="/minhas-reservas">Minhas reservas</a>
+    <h1>Sistema de Reservas</h1>
+    <p>Escolha uma opção abaixo:</p>
+
+    <a href="/minhas-reservas">
+        <button>Minhas reservas</button>
+    </a>
+
+    <a href="./formulario">
+        <button>Fazer reserva</button>
+    </a>
+
+    <button id="setorBtn">Escolher Setor</button>
+
+    <div id="setorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Escolha o Setor</h2>
+            <form>
+                <label for="setor">Setor:</label>
+                <select id="setor" name="setor">
+                    <option value="Lounge Area">Lounge Area</option>
+                    <option value="Internal Area">Internal Area</option>
+                    <option value="External Area">External Area</option>
+                </select>
+                <br><br>
+                <button type="submit">Confirmar</button>
+            </form>
+
+        </div>
+    </div>
+
+
 </body>
+<script>
+    var modal = document.getElementById("setorModal");
+    var btn = document.getElementById("setorBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
 </html>
