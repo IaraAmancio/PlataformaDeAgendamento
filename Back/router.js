@@ -58,4 +58,46 @@ router.post('/submit-formulario', async (req, res) => {
     }
 })
 
+router.get('/minhas-reservas', (req, res) => {
+    res.render('minhas-reservas');
+});
+
+router.post('/submit-minhas-reservas', async (req, res) => {
+    const cpf = req.body.cpf;
+    try {
+        const pessoa = await Person.findOne({ cpf });
+        if (pessoa) {
+            const reservas = await Reservation.find({ id_person: pessoa._id });
+            
+            // Buscando o setor manualmente
+            const reservasComSetor = await Promise.all(reservas.map(async (reserva) => {
+                const setor = await Sector.findById(reserva.id_sector);
+                return {
+                    ...reserva._doc,
+                    setor: setor ? setor.id_sector : 'Setor não encontrado'
+                };
+            }));
+
+            // Formatando Data
+            const reservasComDataFormatada = reservasComSetor.map(reserva => {
+                const date = new Date(reserva.date);
+                const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
+                
+                return {
+                    ...reserva,
+                    formattedDate,
+                    time: reserva.time
+                };
+            });
+            
+            res.render('minhas-reservas', { reservasComDataFormatada });
+        } else {
+            res.render('minhas-reservas', { reservasComDataFormatada: [], message: 'CPF não encontrado' });
+        }
+    } catch (error) {
+        res.status(500).send('Erro ao buscar reservas.');
+    }
+});
+
+
 module.exports = router;

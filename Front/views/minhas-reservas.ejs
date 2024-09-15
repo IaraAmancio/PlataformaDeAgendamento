@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas reservas</title>
+</head>
+<body>
+    <h1>Minhas Reservas</h1>
+    <a href="/">Página inicial</a>
+
+    <form action="/submit-minhas-reservas" method="POST">
+        <label for="cpf">Digite seu CPF para buscar suas reservas:</label>
+        <input type="text" name="cpf" id="cpf" required>
+        <button type="submit">Buscar</button>
+    </form>
+    
+    <% if (typeof reservasComDataFormatada !== 'undefined' && reservasComDataFormatada.length > 0) { %>
+        <h2>Reservas encontradas:</h2>
+        <ul>
+            <% reservasComDataFormatada.forEach(reserva => { %>
+                <li>
+                    Setor: <%= reserva.setor %>, 
+                    Data: <%= reserva.formattedDate %>, 
+                    Horário: <%= reserva.time %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else if (typeof message !== 'undefined') { %>
+        <p><%= message %></p>
+    <% } %>
+</body>
+</html>
