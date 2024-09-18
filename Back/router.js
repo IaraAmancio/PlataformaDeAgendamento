@@ -99,5 +99,31 @@ router.post('/submit-minhas-reservas', async (req, res) => {
     }
 });
 
+router.get('/qtd-reservas/:id_sector', (req, res) => {
+    const { id_sector } = req.params;
+
+    try{
+        const vagasDisponiveis = sector.capacity - sector.occupied_vacancies;
+
+        res.status(200).send({ vagasDisponiveis })
+    }catch (error){
+        res.status(500).send({ message: 'Não há vagas disponíveis', error });
+    }
+});
+
+router.get('/preenchimento-nome', async (req, res) => {
+    const cpf = req.body.cpf;
+    try {
+        const pessoa = await Person.findOne({ cpf });
+        if (pessoa) {
+            
+            res.render('minhas-reservas', { nome: person.name });
+        } else {
+            res.render('minhas-reservas', { message: 'CPF não encontrado' });
+        }
+    } catch (error) {
+        res.status(500).send('Erro ao buscar cpf.');
+    }
+});
 
 module.exports = router;

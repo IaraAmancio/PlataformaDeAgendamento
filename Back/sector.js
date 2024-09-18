@@ -8,6 +8,11 @@ const sectorModel = new mongoose.Schema({
     capacity:{
         type: Number,
         enum: [10, 20, 30]
+    },
+    occupied_vacancies:{
+        type: Number,
+        default: 0,
+        min: 0
     }
 })
 
