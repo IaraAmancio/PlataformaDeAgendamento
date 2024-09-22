@@ -28,7 +28,7 @@
             </div>
             <div>
                 <label for="dataReserva">Data da reserva:</label>
-                <input type="date" id="dataReserva" name="dataReserva" required>
+                <input type="date" id="dataReserva" name="dataReserva" min="" required>
             </div>
             <div>
                 <label for="horarioReserva">Horário da Reserva:</label>
@@ -57,5 +57,25 @@
             </div>
         </form>
     </div>
+    <script>
+
+        const today =  new Date().toISOString().split('T')[0];
+        const hours =  new Date().getHours();
+
+        // limitar ao usuario 15 dias a partir do dia inicial, sendo considerado o dia inicial a data de hoje, até as 14h.
+        let datelimit = new Date();     
+        let dateinit = new Date();
+        let reservationdays = hours < 14? 14: 15;
+        let initday = hours < 14? 0 : 1;
+
+        dateinit.setDate(dateinit.getDate() + initday);
+        datelimit.setDate(datelimit.getDate() + reservationdays);
+        datelimit = datelimit.toISOString().split('T')[0];
+        dateinit = dateinit.toISOString().split('T')[0];
+
+        document.getElementById('dataReserva').setAttribute('min', dateinit);
+        document.getElementById('dataReserva').setAttribute('max', datelimit);
+      
+    </script>
 </body>
 </html>
