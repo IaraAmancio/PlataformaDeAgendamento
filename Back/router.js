@@ -5,6 +5,7 @@ const router = express.Router();
 const personModel = require('./person')
 const sectorModel = require('./sector')
 const reservationModel = require('./reservation')
+const { enviarEmailConfirmacao, agendarLembrete } = require('./mailer')
 
 const Person = mongoose.model('Person', personModel)
 const Sector = mongoose.model('Sector', sectorModel)
@@ -49,6 +50,23 @@ router.post('/submit-formulario', async (req, res) => {
         
         // Salvar reserva
         await newReservation.save();
+
+         // Envio de e-mail e agendamento de lembrete usando mailer.js
+         enviarEmailConfirmacao({
+            nome,
+            email,
+            data: dataReserva,
+            horario: horarioReserva,
+            setor: sector.id_sector
+        });
+
+        agendarLembrete({
+            nome,
+            email,
+            data: dataReserva,
+            horario: horarioReserva,
+            setor: sector.id_sector
+        });
 
         console.log('Reserva efetuada com sucesso!');
 
