@@ -3,17 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/minhasReservas.css">
+
     <title>Minhas reservas</title>
 </head>
 <body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">
+            <a href="/"><img src="/style/Logo.png" alt="Logo do Restaurante"></a>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                
+            </ul>
+
+        <div class="header-right">
+
+            <div class="horario">
+                <span>Seg-Dom: 18:00 - 23:00</span>
+            </div>
+            <div class="redes-sociais">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            </div>
+            <div class="idioma">
+                <select>
+                    <option value="pt">PT</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
     <h1>Minhas Reservas</h1>
-    <a href="/">Página inicial</a>
+    <!-- <a href="/">Página inicial</a> -->
 
     <form action="/submit-minhas-reservas" method="POST">
         <label for="cpf">Digite seu CPF para buscar suas reservas:</label>
         <input type="text" name="cpf" id="cpf" required>
         <button type="submit">Buscar</button>
     </form>
+
+  <!-- Adicionando máscara ao cpf -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <script>
+      $('#cpf').mask('000.000.000-00');
+  </script>
     
     <% if (typeof reservasComDataFormatada !== 'undefined' && reservasComDataFormatada.length > 0) { %>
         <h2>Reservas encontradas:</h2>
@@ -29,5 +69,9 @@
     <% } else if (typeof message !== 'undefined') { %>
         <p><%= message %></p>
     <% } %>
+
+    
 </body>
+
+
 </html>
