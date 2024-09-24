@@ -129,18 +129,17 @@ router.get('/qtd-reservas/:id_sector', (req, res) => {
     }
 });
 
-router.get('/preenchimento-nome', async (req, res) => {
-    const cpf = req.body.cpf;
+router.post('/preenchimento-nome', async (req, res) => {
+    const { cpf } = req.body;
     try {
-        const pessoa = await Person.findOne({ cpf });
+        const pessoa = await Person.findOne({ cpf: cpf });
         if (pessoa) {
-            
-            res.render('minhas-reservas', { nome: person.name });
+            res.json({ success: true, nome: pessoa.name });
         } else {
-            res.render('minhas-reservas', { message: 'CPF não encontrado' });
+            res.json({ success: false, message: 'CPF não encontrado' });
         }
     } catch (error) {
-        res.status(500).send('Erro ao buscar cpf.');
+        res.status(500).json({ success: false, message: 'Erro ao buscar CPF.' });
     }
 });
 
