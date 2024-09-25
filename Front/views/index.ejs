@@ -6,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <link rel="stylesheet" href="/style/paginaInicial.css">
-
+    <link rel="stylesheet" href="/style/header.css">
 
 </head>
 
 <body>
+
+    <%- include('header') %>
+
     <h1>Sistema de Reservas</h1>
     <p>Escolha uma opção abaixo:</p>
 
@@ -63,5 +66,10 @@
         }
     }
 </script>
+
+<footer>
+    <p>&copy; 2024 Restaurante. Todos os direitos reservados.</p>
+    <a href="/politica-de-privacidade">Política de Privacidade</a>
+</footer>
 
 </html>
