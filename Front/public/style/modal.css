@@ -1,0 +1,36 @@
+.modal-content {
+    background: linear-gradient( #FFFFFF, #fdff97) no-repeat;
+    border-radius: 8px;
+    border: 2px solid  #ddc645;
+}
+
+h2{
+    color: #700f0f;
+}
+
+fieldset {
+    margin-bottom: 10px;
+    background-color: #fdff97;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid #ddc645;
+  }
+  
+label {
+    display: inline-block;
+    width: 300px;
+}
+
+input[type="date"], select{
+    width: 150px;
+    height: 30px;
+    border: 2px solid #ddc645;
+    font-size: 16px;
+}
+
+option {
+    background-color: #fdff97;
+    border-radius: 4px;
+}
+

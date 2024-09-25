@@ -7,7 +7,7 @@
     <title>Página inicial</title>
     <link rel="stylesheet" href="/style/paginaInicial.css">
     <link rel="stylesheet" href="/style/header.css">
-
+    <link rel="stylesheet" href="/style/modal.css">
 </head>
 
 <body>
@@ -21,27 +21,27 @@
         <button>Minhas reservas</button>
     </a>
 
-    <a href="./formulario">
-        <button>Fazer reserva</button>
-    </a>
-
-    <button id="setorBtn">Escolher Setor</button>
+    <button id="setorBtn">Fazer Reserva</button>
 
     <div id="setorModal" class="modal">
         <div class="modal-content">
             <span class="close">×</span>
-            <h2>Escolha o Setor</h2>
-            <form>
-                <label for="setor">Setor:</label>
-                <select id="setor" name="setor">
-                    <option value="Lounge Area">Lounge Area</option>
-                    <option value="Internal Area">Internal Area</option>
-                    <option value="External Area">External Area</option>
-                </select>
-                <br><br>
-                <button type="submit">Confirmar</button>
+            <h2>Faça sua Reserva!</h2>
+            <form action="/formulario">
+                <fieldset>
+                    <label for="setor">Escolha o Setor (Lounge, Internal, External):</label>
+                    <select id="setor" name="setor">
+                        <option value="Lounge Area">Lounge Area</option>
+                        <option value="Internal Area">Internal Area</option>
+                        <option value="External Area">External Area</option>
+                    </select>
+                </fieldset>
+                <fieldset>
+                    <label for="data">Escolha a Data (Reservas disponíveis para os próximos 15 dias):</label>
+                    <input type="date" id="data" name="data">
+                </fieldset>
+                <button type="submit">Continuar</button>
             </form>
-
         </div>
     </div>
 
@@ -65,6 +65,23 @@
             modal.style.display = "none";
         }
     }
+
+    const today = new Date().toISOString().split('T')[0];
+    const hours = new Date().getHours();
+
+    let datelimit = new Date();
+    let dateinit = new Date();
+    let reservationdays = hours < 14? 14: 15;
+    let initday = hours < 14? 0: 1;
+
+    dateinit.setDate(dateinit.getDate() + initday);
+    datelimit.setDate(datelimit.getDate() + reservationdays);
+    datelimit = datelimit.toISOString().split('T')[0];
+    dateinit = dateinit.toISOString().split('T')[0];
+
+    document.getElementById('data').setAttribute('min', dateinit);
+    document.getElementById('data').setAttribute('max', datelimit);
+
 </script>
 
 <footer>

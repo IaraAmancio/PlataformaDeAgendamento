@@ -24,7 +24,9 @@ async function criarReserva() {
 
         // Criar um novo setor (ou referenciar um existente)
         const novoSetor = new Sector({
-            id_sector: 'Lounge Area'
+           // id_sector: 'Lounge Area',
+            id_sector: 'Internal Area',
+            //id_sector: 'External Area',
         });
         const setorSalvo = await novoSetor.save();
 

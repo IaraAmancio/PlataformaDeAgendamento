@@ -13,6 +13,9 @@ app.set('views', path.join(__dirname,'../Front/views'));
 app.use(express.static(path.join(__dirname, '../Front/public')));
 
 const bodyParser = require('body-parser');
+
+// Middleware para processar JSON
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 

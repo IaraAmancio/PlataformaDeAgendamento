@@ -16,14 +16,20 @@ router.get('/', (req, res) => {
 });
 
 router.get("/formulario", (req, res) => {
-    res.render("formulario")
+    const { setor, data } = req.query; //body Recebe data e setor da query string
+    res.render("formulario", { setor, data }); // Passa data e setor para a view
 })
 
 router.post('/submit-formulario', async (req, res) => {
-    try {
-        const { nome, cpf, email, qtdPessoas, dataReserva, horarioReserva, setor } = req.body;
 
-        // Verifica se já existe a pessoa cadastrada no banco a partir do cpf
+    try {
+        const {nome, cpf, email, qtdPessoas, horarioReserva, setor, data } = req.body;
+        console.log(setor);
+        console.log(data);
+        console.log(nome);
+
+
+        // Verifica se já existe a pessoa cadastrada no banco a partir do cpf     
         let person = await Person.findOne({ cpf });
         if (!person)  {
             person = new Person({name: nome, email: email, cpf: cpf});
@@ -34,7 +40,8 @@ router.post('/submit-formulario', async (req, res) => {
         const sector = await Sector.findOne({ id_sector: setor });
 
         // Tratamento de dado para a data de reserva
-        const reservaDate = new Date(dataReserva);
+        const reservaDate = new Date(data);
+        console.log(reservaDate);
         if (isNaN(reservaDate.getTime())) {
             return res.status(400).send('Data inválida');
         }
@@ -44,10 +51,10 @@ router.post('/submit-formulario', async (req, res) => {
             id_person: person._id,
             id_sector: sector._id,
             person_quantity: qtdPessoas,
-            date: new Date(dataReserva),
+            date: reservaDate,
             time: horarioReserva
         });
-        
+        console.log(newReservation.id_person)
         // Salvar reserva
         await newReservation.save();
 
@@ -55,7 +62,7 @@ router.post('/submit-formulario', async (req, res) => {
          enviarEmailConfirmacao({
             nome,
             email,
-            data: dataReserva,
+            data: data,
             horario: horarioReserva,
             setor: sector.id_sector
         });
@@ -63,7 +70,7 @@ router.post('/submit-formulario', async (req, res) => {
         agendarLembrete({
             nome,
             email,
-            data: dataReserva,
+            data: data,
             horario: horarioReserva,
             setor: sector.id_sector
         });

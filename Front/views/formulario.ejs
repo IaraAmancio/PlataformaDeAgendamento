@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendamento</title>
     <link rel="stylesheet" href="/style/formulario.css">
+    <link rel="stylesheet" href="/style/header.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+
+    <%- include('header') %>
+
     <div class="container">
         <h3>Agendamento</h3>
         <form action="/submit-formulario" method="post">
@@ -27,6 +31,8 @@
                 <label for="qtdPessoas">Quantidade de pessoas:</label>
                 <input type="number" id="qtdPessoas" name="qtdPessoas" required/>
             </div>
+            <input type="hidden" name="setor" value="<%= setor %>">
+            <input type="hidden" name="data" value="<%= data %>">
            
             <div class="button">
                 <button type="submit">Reservar</button>
@@ -64,6 +70,11 @@
 <script>
     $('#cpf').mask('000.000.000-00');
 </script>
+
+<footer>
+    <p>&copy; 2024 Restaurante. Todos os direitos reservados.</p>
+    <a href="/politica-de-privacidade">Política de Privacidade</a>
+</footer>
 
 </body>
 </html>
