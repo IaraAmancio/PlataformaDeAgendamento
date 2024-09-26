@@ -32,7 +32,7 @@
         <h2>Reservas encontradas:</h2>
         <ul>
             <% reservasComDataFormatada.forEach(reserva => { %>
-                <li>
+                <li class="reservas">
                     Setor: <%= reserva.setor %>, 
                     Data: <%= reserva.formattedDate %>, 
                     Horário: <%= reserva.time %>
@@ -43,7 +43,6 @@
         <p><%= message %></p>
     <% } %>
 
-    
 </body>
 
 <footer>

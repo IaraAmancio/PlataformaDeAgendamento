@@ -55,3 +55,54 @@ button:hover {
 p{
     text-align: center;
 }
+
+/* Estilo para o cabeçalho */
+h2 {
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo para a lista */
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Estilo para cada item da lista */
+li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    color: #555;
+}
+
+/* Estilo para o texto dentro dos itens da lista */
+li span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+li .reservas {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    color: #555;
+}
+
+/* Estilo para o parágrafo de mensagem */
+p {
+    font-family: Arial, sans-serif;
+    color: #888;
+    text-align: center;
+}
+
