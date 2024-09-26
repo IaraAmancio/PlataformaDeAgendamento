@@ -39,9 +39,14 @@
             </div>
         </form>
     </div>
-    <script>
 
-        $(document).ready(function() {
+<!-- Adicionando máscara ao cpf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script>
+    $('#cpf').mask('000.000.000-00');
+
+    // Preenchimento automático do nome
+    $(document).ready(function() {
             $('#cpf').on('blur', function() {
                 const cpf = $(this).val();
                 $.ajax({
@@ -53,7 +58,7 @@
                         if (response.success && response.nome) {
                             $('#nome').val(response.nome);
                         } else {
-                            alert('CPF não encontrado');
+                            console.log('CPF não encontrado');
                         }
                     },
                     error: function() {
@@ -62,13 +67,7 @@
                 });
             });
         });
-    </script>
 
-<!-- Adicionando máscara ao cpf -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-<script>
-    $('#cpf').mask('000.000.000-00');
 </script>
 
 <footer>

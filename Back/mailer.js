@@ -1,23 +1,28 @@
 const nodemailer = require('nodemailer');
 const cron = require('node-cron');
 
+const emailEnvio = 'seu-email@gmail.com';
+
 // Configurações do Nodemailer
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
     auth: {
-        user: 'InserirEmail@gmail.com',
-        pass: 'xxxxxxxxx',
+        user: `${emailEnvio}`,
+        pass: 'senha aqui',
     }
 });
 
 // Função para enviar o e-mail de confirmação
 function enviarEmailConfirmacao(reserva) {
-    const { nome, email, data, horario, setor } = reserva;
+    const { nome, email, data, qtdPessoas, setor } = reserva;
+
+    const date = new Date(data);
+    const dataFormatada = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
 
     const mailOptions = {
-        from: 'InserirEMail@gmail.com',
+        from: `${emailEnvio}`,
         to: email,
         subject: 'Confirmação de Reserva',
         text: `Olá ${nome},
@@ -25,8 +30,8 @@ function enviarEmailConfirmacao(reserva) {
 Sua reserva foi confirmada.
 
 Detalhes da reserva:
-- Data: ${data}
-- Horário: ${horario}
+- Data: ${dataFormatada}
+- Horário: A partir das 18h
 - Setor: ${setor}
 
 Estamos ansiosos para recebê-lo.
@@ -39,9 +44,10 @@ Equipe do Restaurante
         <p>Sua reserva foi confirmada.</p>
         <h2>Detalhes da reserva:</h2>
         <ul>
-            <li><strong>Data:</strong> ${data}</li>
-            <li><strong>Horário:</strong> A partir das ${horario}</li>
+            <li><strong>Data:</strong> ${dataFormatada}</li>
+            <li><strong>Horário:</strong> A partir das 18h</li>
             <li><strong>Setor:</strong> ${setor}</li>
+            <li><strong>Quantidade de pessoas:</strong> ${qtdPessoas}</li>
         </ul>
         <p>Estamos ansiosos para recebê-lo.</p>
         <p>Atenciosamente,<br>Equipe do Restaurante</p>`
@@ -58,14 +64,26 @@ Equipe do Restaurante
 
 // Função para agendar o e-mail de lembrete
 function agendarLembrete(reserva) {
-    const { email, nome, data, horario, setor } = reserva;
+    const { email, nome, data, qtdPessoas, setor } = reserva;
+    const date = new Date(data);
+    const dataFormatada = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
 
-    const horarioReserva = new Date(`${data}T${horario}`);
-    const lembreteHorario = new Date(horarioReserva.getTime() - 60 * 60 * 1000);
+    // const horario = 18;
 
-    cron.schedule(`${lembreteHorario.getMinutes()} ${lembreteHorario.getHours()} ${lembreteHorario.getDate()} ${lembreteHorario.getMonth() + 1} *`, () => {
+    // const horarioReserva = new Date(`${data}T${String(horario).padStart(2, '0')}:00:00`);
+    // const lembreteHorario = new Date(horarioReserva.getTime() - 60 * 60 * 1000);
+
+    
+    // Demonstração de envio do e-mail de lembrete
+    const horarioAtual = new Date();
+    const lembreteHorario = new Date(horarioAtual.getTime() + 60 * 1000);
+
+    const minutos = lembreteHorario.getMinutes();
+    const horas = lembreteHorario.getHours();
+
+    cron.schedule(`${minutos} ${horas} * * *`, () => {
         const mailOptions = {
-            from: 'InserirEMail@gmail.com',
+            from: `${emailEnvio}`,
             to: email,
             subject: 'Lembrete: Sua reserva está próxima',
             text: `Olá ${nome},
@@ -73,8 +91,8 @@ function agendarLembrete(reserva) {
 Estamos enviando este lembrete para avisar que sua reserva ocorrerá em 1 hora.
 
 Detalhes da reserva:
-- Data: ${data}
-- Horário: ${horario}
+- Data: ${dataFormatada}
+- Horário: A partir das 18h
 - Setor: ${setor}
 
 Esperamos vê-lo em breve.
@@ -87,9 +105,10 @@ Equipe do Restaurante
             <p>Estamos enviando este lembrete para avisar que sua reserva ocorrerá em 1 hora.</p>
             <h2>Detalhes da reserva:</h2>
             <ul>
-                <li><strong>Data:</strong> ${data}</li>
-                <li><strong>Horário:</strong> A partir das ${horario}</li>
+                <li><strong>Data:</strong> ${dataFormatada}</li>
+                <li><strong>Horário:</strong> A partir das 18h</li>
                 <li><strong>Setor:</strong> ${setor}</li>
+                <li><strong>Quantidade de pessoas:</strong> ${qtdPessoas}</li>
             </ul>
             <p>Esperamos vê-lo em breve.</p>
             <p>Atenciosamente,<br>Equipe do Restaurante</p>`

@@ -11,7 +11,7 @@ const Person = mongoose.model('Person', personModel)
 const Sector = mongoose.model('Sector', sectorModel)
 const Reservation = mongoose.model('Reservation', reservationModel)
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     res.render("index");
 });
 
@@ -23,11 +23,7 @@ router.get("/formulario", (req, res) => {
 router.post('/submit-formulario', async (req, res) => {
 
     try {
-        const {nome, cpf, email, qtdPessoas, horarioReserva, setor, data } = req.body;
-        console.log(setor);
-        console.log(data);
-        console.log(nome);
-
+        const {nome, cpf, email, qtdPessoas, setor, data } = req.body;
 
         // Verifica se já existe a pessoa cadastrada no banco a partir do cpf     
         let person = await Person.findOne({ cpf });
@@ -51,8 +47,7 @@ router.post('/submit-formulario', async (req, res) => {
             id_person: person._id,
             id_sector: sector._id,
             person_quantity: qtdPessoas,
-            date: reservaDate,
-            time: horarioReserva
+            date: reservaDate
         });
         console.log(newReservation.id_person)
         // Salvar reserva
@@ -63,7 +58,7 @@ router.post('/submit-formulario', async (req, res) => {
             nome,
             email,
             data: data,
-            horario: horarioReserva,
+            qtdPessoas,
             setor: sector.id_sector
         });
 
@@ -71,7 +66,7 @@ router.post('/submit-formulario', async (req, res) => {
             nome,
             email,
             data: data,
-            horario: horarioReserva,
+            qtdPessoas,
             setor: sector.id_sector
         });
 
@@ -111,7 +106,6 @@ router.post('/submit-minhas-reservas', async (req, res) => {
                 return {
                     ...reserva,
                     formattedDate,
-                    time: reserva.time
                 };
             });
             
@@ -121,18 +115,6 @@ router.post('/submit-minhas-reservas', async (req, res) => {
         }
     } catch (error) {
         res.status(500).send('Erro ao buscar reservas.');
-    }
-});
-
-router.get('/qtd-reservas/:id_sector', (req, res) => {
-    const { id_sector } = req.params;
-
-    try{
-        const vagasDisponiveis = sector.capacity - sector.occupied_vacancies;
-
-        res.status(200).send({ vagasDisponiveis })
-    }catch (error){
-        res.status(500).send({ message: 'Não há vagas disponíveis', error });
     }
 });
 
@@ -149,5 +131,25 @@ router.post('/preenchimento-nome', async (req, res) => {
         res.status(500).json({ success: false, message: 'Erro ao buscar CPF.' });
     }
 });
+
+(async function salvarSetores() {
+    const setores = [
+        { id_sector: 'Lounge Area', capacity: 30 },
+        { id_sector: 'Internal Area', capacity: 20 },
+        { id_sector: 'External Area', capacity: 10 }
+    ];
+
+    try {
+        const setoresExistentes = await Sector.countDocuments();
+        if (setoresExistentes === 0) {
+            await Sector.insertMany(setores);
+            console.log('Setores salvos com sucesso');
+        } else {
+            console.log('Os setores já foram inseridos anteriormente');
+        }
+    } catch (error) {
+        console.error('Erro ao salvar setores:', error);
+    }
+})();
 
 module.exports = router;
